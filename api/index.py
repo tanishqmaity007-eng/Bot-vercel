@@ -339,6 +339,7 @@ async def webhook_handler(request: Request):
     global ptb_initialized
     if not ptb_initialized:
         await ptb_app.initialize()
+        await ptb_app.start()
         ptb_initialized = True
 
     try:
@@ -349,4 +350,3 @@ async def webhook_handler(request: Request):
     except Exception as e:
         logger.error(f"Error processing update: {e}")
         return Response(status_code=500)
-    
