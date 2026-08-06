@@ -292,27 +292,36 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     data = query.data
 
-    if data == "main_menu":
-        await query.edit_message_text(
-            "ℹ️ *Welcome to SAIL-BSP Information Assistant!*\n\n"
-            "Please choose a category below to view information:",
-            parse_mode="Markdown",
-            reply_markup=get_main_menu_keyboard()
-        )
-    elif data.startswith("cat_"):
-        text, markup = get_category_view(data)
-        await query.edit_message_text(
-            text,
-            parse_mode="Markdown",
-            reply_markup=markup
-        )
-    elif data.startswith("detail_"):
-        text, markup = get_detail_view(data)
-        await query.edit_message_text(
-            text,
-            parse_mode="Markdown",
-            reply_markup=markup
-        )
+    try:
+        if data == "main_menu":
+            text = (
+                "ℹ️ *Welcome to SAIL-BSP Information Assistant!*\n\n"
+                "Please choose a category below to view information:"
+            )
+            markup = get_main_menu_keyboard()
+        elif data.startswith("cat_"):
+            text, markup = get_category_view(data)
+        elif data.startswith("detail_"):
+            text, markup = get_detail_view(data)
+        else:
+            return
+
+        # Try rendering with Markdown first, fall back to plain text if syntax parsing fails
+        try:
+            await query.edit_message_text(
+                text,
+                parse_mode="Markdown",
+                reply_markup=markup
+            )
+        except Exception as parse_error:
+            logger.warning(f"Markdown parsing failed ({parse_error}), falling back to plain text rendering.")
+            await query.edit_message_text(
+                text,
+                reply_markup=markup
+            )
+
+    except Exception as e:
+        logger.error(f"Error handling callback query: {e}")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Thank you for your message! Please send /start or use the menu buttons to navigate.")
