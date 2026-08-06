@@ -10,10 +10,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Guaranteed Fallback Links to avoid NoneType URL crashes
+# Fallback links
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54fk")
-GOOGLE_DRIVE_LINK = os.getenv("GOOGLE_DRIVE_LINK") or "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
-GOOGLE_FORM_LINK = os.getenv("GOOGLE_FORM_LINK") or "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
+GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
+GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
 
 # --- 1. MAIN MENU KEYBOARD ---
 def get_main_menu_keyboard():
@@ -37,10 +37,10 @@ def get_category_view(cat_id):
         keyboard = [
             [InlineKeyboardButton("🌐 SAIL Main Official Portal", url="https://www.sail.co.in")],
             [InlineKeyboardButton("🏬 Bhilai Steel Plant (BSP)", url="https://www.sail.co.in/en/plants/about-bhilai-steel-plant")],
-            [InlineKeyboardButton("🏬 Bokaro Steel Plant (BSL)", url="https://www.sail.co.in/en/page/sail-plants")],
-            [InlineKeyboardButton("🏬 Durgapur Steel Plant (DSP)", url="https://www.sail.co.in/en/page/sail-plants")],
-            [InlineKeyboardButton("🏬 Rourkela Steel Plant (RSP)", url="https://www.sail.co.in/en/page/sail-plants")],
-            [InlineKeyboardButton("🏬 IISCO Steel Plant (ISP)", url="https://www.sail.co.in/en/page/sail-plants")],
+            [InlineKeyboardButton("🏬 Bokaro Steel Plant (BSL)", url="https://www.sail.co.in/en/plants/about-bokaro-steel-plant")],
+            [InlineKeyboardButton("🏬 Durgapur Steel Plant (DSP)", url="https://www.sail.co.in/en/plants/about-durgapur-steel-plant")],
+            [InlineKeyboardButton("🏬 Rourkela Steel Plant (RSP)", url="https://www.sail.co.in/en/plants/about-rourkela-steel-plant")],
+            [InlineKeyboardButton("🏬 IISCO Steel Plant (ISP)", url="https://www.sail.co.in/en/plants/about-iisco-steel-plant")],
             [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
         ]
     elif cat_id == "cat_pay":
@@ -288,8 +288,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    
+    try:
+        await query.answer()
+    except Exception as e:
+        logger.warning(f"Could not answer query: {e}")
+
     data = query.data
+    logger.info(f"Button pressed callback_data: {data}")
 
     try:
         if data == "main_menu":
@@ -306,12 +312,12 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
 
         await query.edit_message_text(
-            text,
+            text=text,
             reply_markup=markup
         )
 
     except Exception as e:
-        logger.error(f"Error handling callback query: {e}")
+        logger.error(f"Error handling callback query '{data}': {e}")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Thank you for your message! Please send /start or use the menu buttons to navigate.")
