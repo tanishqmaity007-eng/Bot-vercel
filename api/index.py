@@ -10,10 +10,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Fetch environment variables or fallbacks
+# Direct Fallback URLs to prevent bad InlineKeyboardButton formatting
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54fk")
-GOOGLE_DRIVE_LINK = os.getenv("GOOGLE_DRIVE_LINK", "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp")
-GOOGLE_FORM_LINK = os.getenv("GOOGLE_FORM_LINK", "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog")
+GOOGLE_DRIVE_LINK = os.getenv("GOOGLE_DRIVE_LINK") or "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
+GOOGLE_FORM_LINK = os.getenv("GOOGLE_FORM_LINK") or "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
 
 # --- 1. MAIN MENU KEYBOARD ---
 def get_main_menu_keyboard():
@@ -306,22 +306,20 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             return
 
-        # Try rendering with Markdown first, fall back to plain text if syntax parsing fails
         try:
             await query.edit_message_text(
                 text,
                 parse_mode="Markdown",
                 reply_markup=markup
             )
-        except Exception as parse_error:
-            logger.warning(f"Markdown parsing failed ({parse_error}), falling back to plain text rendering.")
+        except Exception:
             await query.edit_message_text(
                 text,
                 reply_markup=markup
             )
 
     except Exception as e:
-        logger.error(f"Error handling callback query: {e}")
+        logger.error(f"Error in button_click: {e}")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Thank you for your message! Please send /start or use the menu buttons to navigate.")
