@@ -292,7 +292,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # --- 5. INITIALIZE FASTAPI & PTB ---
 app = FastAPI()
-ptb_app =Application.builder().token(BOT_TOKEN).build()
+ptb_app = Application.builder().token(BOT_TOKEN).build()
 
 ptb_app.add_handler(CommandHandler("start", start))
 ptb_app.add_handler(CallbackQueryHandler(button_click))
