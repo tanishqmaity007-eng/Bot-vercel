@@ -10,7 +10,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Fallback links
+# External links
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54fk")
 GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
 GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
@@ -89,7 +89,7 @@ def get_category_view(cat_id):
     elif cat_id == "cat_induction":
         text = "🎓 Central Induction & Schedule\n\nInformation regarding inaugural programs, plant orientation, dress codes, and video links:"
         keyboard = [
-            [InlineKeyboardButton("🏛️ Inaugural Program & Schedule", callback_data="detail_ind_schedule")],
+            [InlineKeyboardButton("🏛️ Inaugural Program & Schedule", url=INAUGURAL_SCHEDULE_DOC_LINK)],
             [InlineKeyboardButton("👔 Suggested Dress Code", callback_data="detail_ind_dresscode")],
             [InlineKeyboardButton("🎥 Informative Video Links (Google Drive)", url=GOOGLE_DRIVE_LINK)],
             [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
@@ -122,10 +122,6 @@ def get_detail_view(detail_id):
             "• E9: ₹1,50,000 – ₹3,00,000 | Director/CEO: ₹1,80,000 – ₹3,40,000\n\n"
             "🏥 Non-Practicing Allowance for Doctors: MBBS (16%), Diploma (18%), PG (20%)"
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_pay_ta":
         parent_cat = "cat_pay"
         text = (
@@ -135,10 +131,6 @@ def get_detail_view(detail_id):
             "• E7 – E8: Travel 1AC/CC or Air Economy | Lodging: 4-Star / Actuals up to ₹4,500 | DA: ₹900 (Own: ₹1,300)\n"
             "• E9 / Directors: Air Executive / Premium Economy | Lodging: Actuals | DA: ₹1,000 – ₹1,100"
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_pay_allowances":
         parent_cat = "cat_pay"
         text = (
@@ -149,10 +141,6 @@ def get_detail_view(detail_id):
             "• Furniture Allowance: E1 (₹15,000), E2–E3 (₹25,000), E4–E5 (₹50,000), E6 (₹1,00,000), E7 (₹1,50,000), E8 (₹2,50,000), E9 (₹4,00,000)\n"
             "• Briefcase Allowance (Once in 4 Yrs): E0–E3 (₹2,150), E4–E6 (₹2,300), E7+ (₹2,600)"
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_el_rules":
         parent_cat = "cat_leave"
         text = (
@@ -161,10 +149,6 @@ def get_detail_view(detail_id):
             "• Accumulation Limit: Maximum accumulation allowed is 300 days.\n"
             "• Encashment: Permitted as per company guidelines during service/retirement."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_hpl_rules":
         parent_cat = "cat_leave"
         text = (
@@ -172,10 +156,6 @@ def get_detail_view(detail_id):
             "• Credit: 20 days for each completed year of service.\n"
             "• Commuted Leave: Granted on medical grounds against twice the amount of HPL."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_ccl_rules":
         parent_cat = "cat_leave"
         text = (
@@ -183,20 +163,12 @@ def get_detail_view(detail_id):
             "• Maternity Leave: Up to 180 days for female employees.\n"
             "• Child Care Leave (CCL): Available for raising children up to 18 years of age."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_scl_rules":
         parent_cat = "cat_leave"
         text = (
             "📋 Special Casual Leave\n\n"
             "• Granted for family planning, sports events, union activities, and voluntary blood donation."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_eol_rules":
         parent_cat = "cat_leave"
         text = (
@@ -204,10 +176,6 @@ def get_detail_view(detail_id):
             "• Extraordinary Leave (EOL): Granted when no other leave is admissible.\n"
             "• Leave Not Due: Advanced leave granted on medical certificate."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_study_sabbatical":
         parent_cat = "cat_leave"
         text = (
@@ -215,10 +183,6 @@ def get_detail_view(detail_id):
             "• Study Leave: Granted for pursuing higher technical or management qualifications.\n"
             "• Sabbatical: Permitted for approved professional development or personal growth."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_general_rules":
         parent_cat = "cat_leave"
         text = (
@@ -226,10 +190,6 @@ def get_detail_view(detail_id):
             "• Leave cannot be claimed as a matter of right.\n"
             "• Prior approval from sanctioning authority is required before proceeding on leave."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_med_facilities":
         parent_cat = "cat_medical"
         text = (
@@ -238,10 +198,6 @@ def get_detail_view(detail_id):
             "• Main Hospital: Jawaharlal Nehru Hospital & Research Centre in Hospital Sector (860 beds).\n"
             "• Access: Avail medical services using the Medical Card issued during training."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_med_form_info":
         parent_cat = "cat_medical"
         text = (
@@ -250,10 +206,6 @@ def get_detail_view(detail_id):
             "• Includes Candidate's Declaration (medical history, family history) and Medical Board Physical Examination report (vision, chest, vitals).\n"
             "• Note: Download the full printable form from the Google Drive link below."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_lib_info":
         parent_cat = "cat_lib"
         text = (
@@ -261,10 +213,6 @@ def get_detail_view(detail_id):
             "• Central Library (HRDC): Open 09:00 AM to 05:30 PM. Borrow 2 books for 30 days.\n"
             "• Public Library: New Civic Centre (Annual membership applies)."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_sports_info":
         parent_cat = "cat_lib"
         text = (
@@ -272,21 +220,6 @@ def get_detail_view(detail_id):
             "• Indoor/outdoor games and Gym available at the Hostel.\n"
             "• Multiple stadia and playgrounds located near the Hostel."
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
-    elif detail_id == "detail_ind_schedule":
-        parent_cat = "cat_induction"
-        text = (
-            "🎓 Central Induction & Inaugural Schedule\n\n"
-            "• Access the full inaugural program and induction schedule document below:"
-        )
-        keyboard = [
-            [InlineKeyboardButton("📄 View Inaugural Schedule Document", url=INAUGURAL_SCHEDULE_DOC_LINK)],
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_ind_dresscode":
         parent_cat = "cat_induction"
         text = (
@@ -306,10 +239,6 @@ def get_detail_view(detail_id):
             "• One pair of sports shoes (for medical examination and other activities)\n"
             "• One pair of formal shoes (for induction sessions and classroom training)"
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
     elif detail_id == "detail_contacts_list":
         parent_cat = "cat_contact"
         text = (
@@ -337,14 +266,11 @@ def get_detail_view(detail_id):
             "• Office Ext: 58973 | Mobile: 9479277645\n"
             "• E-mail: Sanjaysingh1025@gmail.com"
         )
-        keyboard = [
-            [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
-            [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
-        ]
-    else:
-        text = "Welcome to SAIL-BSP Information Assistant!"
-        keyboard = [[InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]]
 
+    keyboard = [
+        [InlineKeyboardButton("◀️ Back to Category Menu", callback_data=parent_cat)],
+        [InlineKeyboardButton("🏠 Main Menu", callback_data="main_menu")]
+    ]
     return text, InlineKeyboardMarkup(keyboard)
 
 # --- 4. TELEGRAM HANDLERS ---
