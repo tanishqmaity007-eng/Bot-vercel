@@ -10,12 +10,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# External Links
+# Shared Links
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54fk")
 GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
 GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
 
-# Specific Document Links
 CENTRAL_INDUCTION_SCHEDULE_DOC = "https://docs.google.com/document/d/1KmHmllcaUn75UAHYAxsPp3UNKPxEyQ9_/edit?usp=sharing&ouid=113177545693365075177&rtpof=true&sd=true"
 INAUGURAL_PROGRAM_DOC = "https://docs.google.com/document/d/1XQOtiJoNa3luDZWqwIMhTDgydX4zm3cx/edit?usp=drivesdk&ouid=104153490061474917624&rtpof=true&sd=true"
 
@@ -110,7 +109,7 @@ def get_category_view(cat_id):
 
     return text, InlineKeyboardMarkup(keyboard)
 
-# --- 3. DETAIL VIEWS & BACK BUTTONS ---
+# --- 3. DETAIL VIEWS ---
 def get_detail_view(detail_id):
     parent_cat = "main_menu"
     
@@ -287,21 +286,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    
     try:
         await query.answer()
     except Exception as e:
         logger.warning(f"Could not answer query: {e}")
 
     data = query.data
-    logger.info(f"Button pressed callback_data: {data}")
-
     try:
         if data == "main_menu":
-            text = (
-                "ℹ️ Welcome to SAIL-BSP Information Assistant!\n\n"
-                "Please choose a category below to view information:"
-            )
+            text = "ℹ️ Welcome to SAIL-BSP Information Assistant!\n\nPlease choose a category below to view information:"
             markup = get_main_menu_keyboard()
         elif data.startswith("cat_"):
             text, markup = get_category_view(data)
@@ -310,11 +303,7 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             return
 
-        await query.edit_message_text(
-            text=text,
-            reply_markup=markup
-        )
-
+        await query.edit_message_text(text=text, reply_markup=markup)
     except Exception as e:
         logger.error(f"Error handling callback query '{data}': {e}")
 
