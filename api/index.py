@@ -15,7 +15,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54
 GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
 GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
 
-# Central Induction Document Links
+# Specific Document Links
 CENTRAL_INDUCTION_SCHEDULE_DOC = "https://docs.google.com/document/d/1KmHmllcaUn75UAHYAxsPp3UNKPxEyQ9_/edit?usp=sharing&ouid=113177545693365075177&rtpof=true&sd=true"
 INAUGURAL_PROGRAM_DOC = "https://docs.google.com/document/d/1XQOtiJoNa3luDZWqwIMhTDgydX4zm3cx/edit?usp=drivesdk&ouid=104153490061474917624&rtpof=true&sd=true"
 
@@ -90,10 +90,10 @@ def get_category_view(cat_id):
             [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
         ]
     elif cat_id == "cat_induction":
-        text = "🎓 Central Induction & Schedule\n\nSelect an option below to view schedule documents, dress codes, or orientation videos:"
+        text = "🎓 Central Induction & Schedule\n\nInformation regarding inaugural programs, plant orientation, dress codes, and video links:"
         keyboard = [
-            [InlineKeyboardButton("📄 Central Induction Schedule Document", url=CENTRAL_INDUCTION_SCHEDULE_DOC)],
             [InlineKeyboardButton("🏛️ Inaugural Program & Schedule", url=INAUGURAL_PROGRAM_DOC)],
+            [InlineKeyboardButton("📄 Central Induction Schedule Document", url=CENTRAL_INDUCTION_SCHEDULE_DOC)],
             [InlineKeyboardButton("👔 Suggested Dress Code", callback_data="detail_ind_dresscode")],
             [InlineKeyboardButton("🎥 Informative Video Links (Google Drive)", url=GOOGLE_DRIVE_LINK)],
             [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
