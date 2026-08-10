@@ -10,11 +10,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# External links
+# External Links
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54fk")
 GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
 GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
-CENTRAL_INDUCTION_DOC_LINK = "https://docs.google.com/document/d/1GK6cCeZSKW7ZWPMyvh9ffrOoErLtFcem/edit?usp=drivesdk&ouid=104153490061474917624&rtpof=true&sd=true"
+
+# Central Induction Document Links
+CENTRAL_INDUCTION_SCHEDULE_DOC = "https://docs.google.com/document/d/1KmHmllcaUn75UAHYAxsPp3UNKPxEyQ9_/edit?usp=sharing&ouid=113177545693365075177&rtpof=true&sd=true"
+INAUGURAL_PROGRAM_DOC = "https://docs.google.com/document/d/1XQOtiJoNa3luDZWqwIMhTDgydX4zm3cx/edit?usp=drivesdk&ouid=104153490061474917624&rtpof=true&sd=true"
 
 # --- 1. MAIN MENU KEYBOARD ---
 def get_main_menu_keyboard():
@@ -25,7 +28,7 @@ def get_main_menu_keyboard():
         [InlineKeyboardButton("🏥 Medical Benefits", callback_data="cat_medical")],
         [InlineKeyboardButton("📚 Library & Recreation", callback_data="cat_lib")],
         [InlineKeyboardButton("📂 Downloadable Forms & Documents", callback_data="cat_forms")],
-        [InlineKeyboardButton("🎓 Central Induction & Schedule", url=CENTRAL_INDUCTION_DOC_LINK)],
+        [InlineKeyboardButton("🎓 Central Induction & Schedule", callback_data="cat_induction")],
         [InlineKeyboardButton("📞 Contact Details & Key Numbers", callback_data="cat_contact")],
         [InlineKeyboardButton("💬 Submit Feedback / Queries (Google Form)", url=GOOGLE_FORM_LINK)]
     ]
@@ -84,6 +87,15 @@ def get_category_view(cat_id):
         text = "📂 Downloadable Forms & Documents\n\nAll official documents, medical forms, and ready reckoners are hosted in our public Google Drive folder."
         keyboard = [
             [InlineKeyboardButton("📄 Open Google Drive Forms Folder", url=GOOGLE_DRIVE_LINK)],
+            [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
+        ]
+    elif cat_id == "cat_induction":
+        text = "🎓 Central Induction & Schedule\n\nSelect an option below to view schedule documents, dress codes, or orientation videos:"
+        keyboard = [
+            [InlineKeyboardButton("📄 Central Induction Schedule Document", url=CENTRAL_INDUCTION_SCHEDULE_DOC)],
+            [InlineKeyboardButton("🏛️ Inaugural Program & Schedule", url=INAUGURAL_PROGRAM_DOC)],
+            [InlineKeyboardButton("👔 Suggested Dress Code", callback_data="detail_ind_dresscode")],
+            [InlineKeyboardButton("🎥 Informative Video Links (Google Drive)", url=GOOGLE_DRIVE_LINK)],
             [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
         ]
     elif cat_id == "cat_contact":
@@ -211,6 +223,25 @@ def get_detail_view(detail_id):
             "⚽ Sports & Recreation\n\n"
             "• Indoor/outdoor games and Gym available at the Hostel.\n"
             "• Multiple stadia and playgrounds located near the Hostel."
+        )
+    elif detail_id == "detail_ind_dresscode":
+        parent_cat = "cat_induction"
+        text = (
+            "👔 Suggested Dress Code During Central Induction Programme\n\n"
+            "To ensure uniformity and comfort during various induction activities, trainees are advised to follow the dress code given below:\n\n"
+            "1️⃣ Medical Examination\n"
+            "• Boys: Half-sleeve T-shirt, Lower/track pants, Comfortable sports shoes\n"
+            "• Girls: Half-sleeve T-shirt with lower/track pants OR Loose-fitting Salwar-Kurta, Comfortable sports shoes or sandals\n\n"
+            "2️⃣ Document Verification\n"
+            "• Casual, decent, light-coloured attire is recommended.\n"
+            "• Examples: T-shirt/Shirt with trousers/jeans, Comfortable shoes or sandals\n\n"
+            "3️⃣ Central Induction Programme & Classroom Sessions\n"
+            "• Boys: Plain, light-coloured formal shirt, Dark-coloured formal trousers, Formal shoes\n"
+            "• Girls: Plain, light-coloured formal attire (Formal shirt & trousers / Salwar Suit / Saree), Formal footwear\n\n"
+            "4️⃣ Footwear Guidelines\n"
+            "All trainees are advised to bring:\n"
+            "• One pair of sports shoes (for medical examination and other activities)\n"
+            "• One pair of formal shoes (for induction sessions and classroom training)"
         )
     elif detail_id == "detail_contacts_list":
         parent_cat = "cat_contact"
