@@ -10,13 +10,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Shared Links
+# External Links & Configuration
 BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54fk")
 GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
 GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
 
+# Central Induction Documents & MTT Presentations Link
 CENTRAL_INDUCTION_SCHEDULE_DOC = "https://docs.google.com/document/d/1KmHmllcaUn75UAHYAxsPp3UNKPxEyQ9_/edit?usp=sharing&ouid=113177545693365075177&rtpof=true&sd=true"
 INAUGURAL_PROGRAM_DOC = "https://docs.google.com/document/d/1XQOtiJoNa3luDZWqwIMhTDgydX4zm3cx/edit?usp=drivesdk&ouid=104153490061474917624&rtpof=true&sd=true"
+MTT_PRESENTATIONS_DRIVE_LINK = "https://drive.google.com/drive/folders/1Vgz6JCiIkh2auScOYXJYxb1YCGRnZg2d?usp=sharing"
 
 # --- 1. MAIN MENU KEYBOARD ---
 def get_main_menu_keyboard():
@@ -28,6 +30,7 @@ def get_main_menu_keyboard():
         [InlineKeyboardButton("📚 Library & Recreation", callback_data="cat_lib")],
         [InlineKeyboardButton("📂 Downloadable Forms & Documents", callback_data="cat_forms")],
         [InlineKeyboardButton("🎓 Central Induction & Schedule", callback_data="cat_induction")],
+        [InlineKeyboardButton("📊 Induction Presentations (MTT)", url=MTT_PRESENTATIONS_DRIVE_LINK)],
         [InlineKeyboardButton("📞 Contact Details & Key Numbers", callback_data="cat_contact")],
         [InlineKeyboardButton("💬 Submit Feedback / Queries (Google Form)", url=GOOGLE_FORM_LINK)]
     ]
