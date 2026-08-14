@@ -15,7 +15,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "8985024640:AAE4A-iUtgoZXVqUGR02lznKd1A9J2g54
 GOOGLE_DRIVE_LINK = "https://drive.google.com/drive/folders/1OT0q-0mxRZNTgafyuHJfd7TGlFqQvoQp"
 GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLSciV5HEHKgOIQ_O1nxj836ThG3i807eM5htfp5jdKK7CYrVdQ/viewform?usp=dialog"
 
-# Central Induction Documents & MTT Presentations Link
+# Specific Document & Presentation Links
 CENTRAL_INDUCTION_SCHEDULE_DOC = "https://docs.google.com/document/d/1KmHmllcaUn75UAHYAxsPp3UNKPxEyQ9_/edit?usp=sharing&ouid=113177545693365075177&rtpof=true&sd=true"
 INAUGURAL_PROGRAM_DOC = "https://docs.google.com/document/d/1XQOtiJoNa3luDZWqwIMhTDgydX4zm3cx/edit?usp=drivesdk&ouid=104153490061474917624&rtpof=true&sd=true"
 MTT_PRESENTATIONS_DRIVE_LINK = "https://drive.google.com/drive/folders/1Vgz6JCiIkh2auScOYXJYxb1YCGRnZg2d?usp=sharing"
@@ -30,7 +30,7 @@ def get_main_menu_keyboard():
         [InlineKeyboardButton("📚 Library & Recreation", callback_data="cat_lib")],
         [InlineKeyboardButton("📂 Downloadable Forms & Documents", callback_data="cat_forms")],
         [InlineKeyboardButton("🎓 Central Induction & Schedule", callback_data="cat_induction")],
-        [InlineKeyboardButton("📊 Induction Presentations (MTT)", url=MTT_PRESENTATIONS_DRIVE_LINK)],
+        [InlineKeyboardButton("📊 Induction Presentations (MTT)", callback_data="cat_mtt_pres")],
         [InlineKeyboardButton("📞 Contact Details & Key Numbers", callback_data="cat_contact")],
         [InlineKeyboardButton("💬 Submit Feedback / Queries (Google Form)", url=GOOGLE_FORM_LINK)]
     ]
@@ -98,6 +98,15 @@ def get_category_view(cat_id):
             [InlineKeyboardButton("📄 Central Induction Schedule Document", url=CENTRAL_INDUCTION_SCHEDULE_DOC)],
             [InlineKeyboardButton("👔 Suggested Dress Code", callback_data="detail_ind_dresscode")],
             [InlineKeyboardButton("🎥 Informative Video Links (Google Drive)", url=GOOGLE_DRIVE_LINK)],
+            [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
+        ]
+    elif cat_id == "cat_mtt_pres":
+        text = (
+            "📊 Induction Presentations (MTT)\n\n"
+            "Access all Management Trainee induction slide decks and presentation materials via the Google Drive link below:"
+        )
+        keyboard = [
+            [InlineKeyboardButton("📁 Open MTT Presentations Folder", url=MTT_PRESENTATIONS_DRIVE_LINK)],
             [InlineKeyboardButton("◀️ Back to Main Menu", callback_data="main_menu")]
         ]
     elif cat_id == "cat_contact":
@@ -289,8 +298,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
+    
+    # Modal popup notification for users navigating older menus
     try:
-        await query.answer()
+        await query.answer(
+            text="🔔 Updates added! (MTT Presentations & Induction Docs)\n\nTip: Send /start to reload your full main menu.",
+            show_alert=True
+        )
     except Exception as e:
         logger.warning(f"Could not answer query: {e}")
 
